@@ -1,0 +1,1012 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fruit Dream Sandwich</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Quicksand:wght@400;500;600;700&family=Dancing+Script:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --peach: #FFD8BE;
+    --peach-deep: #FFBB99;
+    --mint: #C8E6D9;
+    --mint-deep: #A0D4BF;
+    --cream: #FFF9F0;
+    --gold: #F7C873;
+    --gold-deep: #E8A830;
+    --berry: #E8A2A2;
+    --berry-deep: #D47070;
+    --white: #FFFFFF;
+    --dark: #3A2E28;
+    --mid: #6B5344;
+    --light-text: #9C7B6A;
+    --wa-green: #25D366;
+    --shadow-sm: 0 4px 12px -2px rgba(100,60,30,0.10);
+    --shadow-md: 0 12px 32px -8px rgba(100,60,30,0.14);
+    --shadow-lg: 0 24px 56px -12px rgba(100,60,30,0.18);
+    --radius-sm: 12px;
+    --radius-md: 20px;
+    --radius-lg: 32px;
+    --radius-full: 999px;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Quicksand', sans-serif;
+    background: var(--cream);
+    color: var(--dark);
+    overflow-x: hidden;
+    position: relative;
+  }
+
+  /* ── GRAIN TEXTURE ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.6;
+  }
+
+  /* ── FLOATING DECORATIVE ELEMENTS ── */
+  .floater {
+    position: absolute;
+    pointer-events: none;
+    user-select: none;
+    font-size: 2rem;
+    animation: float 6s ease-in-out infinite;
+    opacity: 0.55;
+  }
+  @keyframes float {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    33% { transform: translateY(-14px) rotate(5deg); }
+    66% { transform: translateY(8px) rotate(-4deg); }
+  }
+  .floater:nth-child(2) { animation-delay: -2s; animation-duration: 7s; }
+  .floater:nth-child(3) { animation-delay: -4s; animation-duration: 5.5s; }
+  .floater:nth-child(4) { animation-delay: -1s; animation-duration: 8s; }
+  .floater:nth-child(5) { animation-delay: -3s; animation-duration: 6.5s; }
+  .floater:nth-child(6) { animation-delay: -5s; animation-duration: 7.5s; }
+
+  /* ── LAYOUT ── */
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 32px;
+  }
+
+  section { position: relative; z-index: 1; }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    padding: 18px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    backdrop-filter: blur(20px);
+    background: rgba(255, 249, 240, 0.82);
+    border-bottom: 1px solid rgba(247, 200, 115, 0.25);
+    transition: box-shadow 0.3s;
+  }
+  nav.scrolled { box-shadow: 0 4px 24px rgba(100,60,30,0.10); }
+  .nav-logo {
+    font-family: 'Dancing Script', cursive;
+    font-size: 1.6rem;
+    color: var(--mid);
+    letter-spacing: 0.01em;
+  }
+  .nav-logo span { color: var(--gold-deep); }
+  .nav-links {
+    display: flex;
+    gap: 32px;
+    list-style: none;
+  }
+  .nav-links a {
+    font-family: 'Quicksand', sans-serif;
+    font-weight: 600;
+    font-size: 0.88rem;
+    color: var(--mid);
+    text-decoration: none;
+    letter-spacing: 0.04em;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--gold-deep); }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    background: linear-gradient(135deg, #FFF4EC 0%, #FFE8D5 35%, #F0F8F4 70%, #FFF9F0 100%);
+    overflow: hidden;
+    padding-top: 80px;
+  }
+  .hero-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
+    align-items: center;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 80px 32px 60px;
+  }
+  .hero-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(247,200,115,0.25);
+    border: 1px solid rgba(247,200,115,0.5);
+    color: var(--gold-deep);
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 6px 16px;
+    border-radius: var(--radius-full);
+    margin-bottom: 24px;
+  }
+  .hero-tag::before { content: '✦'; font-size: 0.7rem; }
+  .hero-headline {
+    font-family: 'Poppins', sans-serif;
+    font-size: clamp(3.5rem, 7vw, 5.5rem);
+    font-weight: 900;
+    line-height: 1.0;
+    color: var(--dark);
+    letter-spacing: -0.03em;
+    margin-bottom: 8px;
+  }
+  .hero-headline .dream {
+    display: block;
+    color: transparent;
+    -webkit-text-stroke: 2.5px var(--peach-deep);
+    filter: drop-shadow(0 0 20px rgba(255,187,153,0.5));
+  }
+  .hero-script {
+    font-family: 'Dancing Script', cursive;
+    font-size: clamp(1.8rem, 3vw, 2.6rem);
+    color: var(--berry-deep);
+    margin-bottom: 20px;
+    display: block;
+    font-weight: 600;
+  }
+  .hero-sub {
+    font-size: 1.0rem;
+    font-weight: 500;
+    color: var(--light-text);
+    line-height: 1.65;
+    margin-bottom: 40px;
+    max-width: 420px;
+  }
+  .hero-cta {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .btn-group {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 16px 28px;
+    border-radius: var(--radius-full);
+    font-family: 'Quicksand', sans-serif;
+    font-size: 0.92rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    text-decoration: none;
+    cursor: pointer;
+    border: none;
+    transition: all 0.28s cubic-bezier(0.34, 1.56, 0.64, 1);
+    box-shadow: var(--shadow-sm);
+  }
+  .btn-wa {
+    background: #25D366;
+    color: #fff;
+  }
+  .btn-wa:hover {
+    background: #1DAA54;
+    transform: translateY(-3px) scale(1.04);
+    box-shadow: 0 12px 30px rgba(37,211,102,0.38);
+  }
+  .btn-ig {
+    background: linear-gradient(135deg, #833ab4, #fd1d1d, #fcb045);
+    color: #fff;
+  }
+  .btn-ig:hover {
+    transform: translateY(-3px) scale(1.04);
+    box-shadow: 0 12px 30px rgba(200,50,100,0.35);
+  }
+  .btn svg { width: 20px; height: 20px; fill: currentColor; flex-shrink: 0; }
+  .cta-hint {
+    font-size: 0.78rem;
+    color: var(--light-text);
+    font-weight: 500;
+    letter-spacing: 0.01em;
+  }
+
+  /* ── HERO VISUAL ── */
+  .hero-visual {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 520px;
+  }
+  .sandwich-blob {
+    position: absolute;
+    width: 420px;
+    height: 420px;
+    border-radius: 60% 40% 55% 45% / 45% 55% 40% 60%;
+    background: radial-gradient(ellipse at 40% 40%, rgba(255,216,190,0.7) 0%, rgba(200,230,217,0.5) 60%, transparent 100%);
+    animation: blob 8s ease-in-out infinite;
+  }
+  @keyframes blob {
+    0%,100% { border-radius: 60% 40% 55% 45% / 45% 55% 40% 60%; }
+    50% { border-radius: 40% 60% 45% 55% / 55% 45% 60% 40%; }
+  }
+  .sandwich-emoji {
+    font-size: 11rem;
+    position: relative;
+    z-index: 2;
+    filter: drop-shadow(0 20px 40px rgba(200,120,80,0.25));
+    animation: float 5s ease-in-out infinite;
+  }
+  .hero-badge {
+    position: absolute;
+    background: white;
+    border-radius: var(--radius-md);
+    padding: 12px 18px;
+    box-shadow: var(--shadow-md);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: var(--dark);
+    z-index: 3;
+    animation: float 7s ease-in-out infinite;
+  }
+  .hero-badge.b1 { top: 60px; right: 20px; animation-delay: -1s; }
+  .hero-badge.b2 { bottom: 100px; left: 0; animation-delay: -3.5s; }
+  .hero-badge.b3 { top: 200px; left: -10px; animation-delay: -2s; }
+  .badge-dot {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.2rem;
+  }
+  .badge-dot.peach { background: rgba(255,216,190,0.6); }
+  .badge-dot.mint { background: rgba(200,230,217,0.6); }
+  .badge-dot.gold { background: rgba(247,200,115,0.4); }
+
+  /* ── SECTION BASE ── */
+  .section-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--gold-deep);
+    margin-bottom: 16px;
+  }
+  .section-label::before, .section-label::after {
+    content: '';
+    display: block;
+    width: 24px;
+    height: 1.5px;
+    background: var(--gold);
+    border-radius: 2px;
+  }
+  .section-title {
+    font-family: 'Poppins', sans-serif;
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 800;
+    color: var(--dark);
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+  }
+  .section-title .accent { color: var(--berry-deep); }
+  .section-sub {
+    font-size: 1rem;
+    color: var(--light-text);
+    font-weight: 500;
+    line-height: 1.65;
+    max-width: 520px;
+    margin: 0 auto;
+  }
+
+  /* ── TASTE THE DREAM ── */
+  .taste-section {
+    padding: 120px 0;
+    background: var(--cream);
+    text-align: center;
+  }
+  .taste-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px;
+    margin-top: 56px;
+  }
+  .taste-card {
+    background: white;
+    border-radius: var(--radius-lg);
+    padding: 44px 32px 36px;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid rgba(247,200,115,0.2);
+    transition: all 0.32s cubic-bezier(0.34, 1.56, 0.64, 1);
+    position: relative;
+    overflow: hidden;
+  }
+  .taste-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--peach-deep), var(--gold));
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .taste-card:hover { transform: translateY(-8px); box-shadow: var(--shadow-lg); }
+  .taste-card:hover::before { opacity: 1; }
+  .taste-icon {
+    width: 80px; height: 80px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 2.2rem;
+    margin: 0 auto 24px;
+  }
+  .taste-icon.fruit { background: rgba(255,216,190,0.5); }
+  .taste-icon.cream { background: rgba(200,230,217,0.5); }
+  .taste-icon.granola { background: rgba(247,200,115,0.35); }
+  .taste-card h3 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--dark);
+    margin-bottom: 12px;
+    letter-spacing: -0.01em;
+  }
+  .taste-card p {
+    font-size: 0.9rem;
+    color: var(--light-text);
+    font-weight: 500;
+    line-height: 1.65;
+  }
+
+  /* ── MENU SECTION ── */
+  .menu-section {
+    padding: 120px 0;
+    background: linear-gradient(180deg, #FFF6F0 0%, #F0F8F5 50%, #FFF9F0 100%);
+    overflow: hidden;
+  }
+  .menu-header { text-align: center; margin-bottom: 64px; }
+  .menu-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 28px;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  .menu-card {
+    background: white;
+    border-radius: var(--radius-lg);
+    padding: 36px 32px;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid transparent;
+    transition: all 0.32s cubic-bezier(0.34, 1.56, 0.64, 1);
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+  }
+  .menu-card:nth-child(2) { transform: translateY(28px); }
+  .menu-card:nth-child(4) { transform: translateY(28px); }
+  .menu-card:hover {
+    transform: translateY(-6px) !important;
+    box-shadow: var(--shadow-lg);
+  }
+  .menu-card:hover .menu-tooltip { opacity: 1; transform: translateY(0); pointer-events: auto; }
+  .menu-emoji {
+    font-size: 3.5rem;
+    margin-bottom: 20px;
+    display: block;
+    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.1));
+  }
+  .menu-card h3 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--dark);
+    margin-bottom: 10px;
+  }
+  .menu-card p { font-size: 0.87rem; color: var(--light-text); font-weight: 500; line-height: 1.6; }
+  .menu-tag {
+    display: inline-block;
+    margin-top: 16px;
+    padding: 5px 14px;
+    border-radius: var(--radius-full);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+  }
+  .tag-berry { background: rgba(232,162,162,0.2); color: var(--berry-deep); }
+  .tag-mango { background: rgba(247,200,115,0.25); color: #B8860B; }
+  .tag-kiwi { background: rgba(200,230,217,0.45); color: #2E7D52; }
+  .tag-banana { background: rgba(255,245,180,0.5); color: #8B6914; }
+  .menu-tooltip {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    background: rgba(58, 46, 40, 0.92);
+    backdrop-filter: blur(8px);
+    color: white;
+    text-align: center;
+    padding: 14px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    opacity: 0;
+    transform: translateY(100%);
+    transition: all 0.28s ease;
+    pointer-events: none;
+    border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+  }
+  .menu-tooltip a {
+    color: var(--wa-green);
+    text-decoration: none;
+  }
+
+  /* ── QUOTES ── */
+  .quotes-section {
+    padding: 120px 0;
+    background: var(--cream);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .quotes-section::before {
+    content: '❝';
+    position: absolute;
+    top: 60px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 12rem;
+    color: rgba(247,200,115,0.12);
+    font-family: Georgia, serif;
+    line-height: 1;
+    pointer-events: none;
+  }
+  .quotes-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+    margin-top: 56px;
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .quote-card {
+    background: rgba(255,255,255,0.7);
+    backdrop-filter: blur(16px);
+    border: 1px solid rgba(247,200,115,0.3);
+    border-radius: var(--radius-lg);
+    padding: 40px 36px;
+    box-shadow: var(--shadow-sm);
+    transition: all 0.3s ease;
+    position: relative;
+  }
+  .quote-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-md); }
+  .quote-card::before {
+    content: '✦';
+    position: absolute;
+    top: 24px; left: 28px;
+    color: var(--gold);
+    font-size: 1rem;
+    opacity: 0.7;
+  }
+  blockquote {
+    font-family: 'Dancing Script', cursive;
+    font-size: 1.5rem;
+    color: var(--mid);
+    font-weight: 600;
+    line-height: 1.5;
+    margin-bottom: 20px;
+  }
+  .quote-author {
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: var(--light-text);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+  .stars { color: var(--gold-deep); font-size: 0.9rem; margin-bottom: 10px; }
+
+  /* ── ORDER SECTION ── */
+  .order-section {
+    padding: 120px 0;
+    background: linear-gradient(135deg, #3A2E28 0%, #5C3D2E 60%, #3A2E28 100%);
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+    color: white;
+  }
+  .order-section::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 20% 50%, rgba(247,200,115,0.15) 0%, transparent 60%),
+                radial-gradient(ellipse at 80% 50%, rgba(200,230,217,0.12) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .order-section .section-label { color: var(--gold); }
+  .order-section .section-label::before, .order-section .section-label::after { background: var(--gold); opacity: 0.5; }
+  .order-title {
+    font-family: 'Poppins', sans-serif;
+    font-size: clamp(2.2rem, 4vw, 3.2rem);
+    font-weight: 800;
+    color: white;
+    margin-bottom: 16px;
+    letter-spacing: -0.02em;
+  }
+  .order-title .script-accent {
+    display: block;
+    font-family: 'Dancing Script', cursive;
+    font-size: 1.5rem;
+    color: var(--gold);
+    font-weight: 600;
+    letter-spacing: 0;
+    margin-bottom: 8px;
+  }
+  .order-sub {
+    color: rgba(255,255,255,0.65);
+    font-size: 1rem;
+    margin-bottom: 60px;
+    font-weight: 500;
+  }
+  .order-cards {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+    max-width: 700px;
+    margin: 0 auto 48px;
+  }
+  .order-card {
+    background: rgba(255,255,255,0.07);
+    border: 1px solid rgba(255,255,255,0.14);
+    border-radius: var(--radius-lg);
+    padding: 36px 28px;
+    text-decoration: none;
+    color: white;
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    text-align: center;
+  }
+  .order-card:hover { background: rgba(255,255,255,0.13); transform: translateY(-6px); box-shadow: 0 20px 40px rgba(0,0,0,0.3); }
+  .order-icon {
+    width: 64px; height: 64px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.8rem;
+  }
+  .order-icon.wa-icon { background: rgba(37,211,102,0.2); border: 1px solid rgba(37,211,102,0.4); }
+  .order-icon.ig-icon { background: rgba(200,100,150,0.2); border: 1px solid rgba(200,100,150,0.3); }
+  .order-card h3 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: white;
+  }
+  .order-card p { font-size: 0.84rem; color: rgba(255,255,255,0.6); font-weight: 500; line-height: 1.55; }
+  .order-card .chip {
+    background: rgba(247,200,115,0.2);
+    border: 1px solid rgba(247,200,115,0.35);
+    color: var(--gold);
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 4px 12px;
+    border-radius: var(--radius-full);
+    letter-spacing: 0.04em;
+  }
+  .order-features {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 28px;
+    flex-wrap: wrap;
+    font-size: 0.85rem;
+    color: rgba(255,255,255,0.55);
+    font-weight: 600;
+    letter-spacing: 0.02em;
+  }
+  .order-features span { display: flex; align-items: center; gap: 8px; }
+  .order-features span::before { content: '✓'; color: var(--wa-green); font-weight: 700; }
+
+  /* ── FOOTER ── */
+  footer {
+    background: #2A2018;
+    padding: 48px 32px;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+  }
+  .footer-logo {
+    font-family: 'Dancing Script', cursive;
+    font-size: 2rem;
+    color: var(--gold);
+    margin-bottom: 12px;
+  }
+  .footer-tagline {
+    font-size: 0.85rem;
+    color: rgba(255,255,255,0.4);
+    font-weight: 500;
+    margin-bottom: 32px;
+    letter-spacing: 0.04em;
+  }
+  .footer-socials {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    margin-bottom: 32px;
+  }
+  .footer-social-btn {
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.15);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.15rem;
+    text-decoration: none;
+    transition: all 0.25s ease;
+    color: white;
+  }
+  .footer-social-btn:hover { background: rgba(247,200,115,0.2); border-color: rgba(247,200,115,0.4); transform: scale(1.1); }
+  .footer-divider {
+    width: 60px; height: 1px;
+    background: rgba(255,255,255,0.1);
+    margin: 0 auto 24px;
+  }
+  .footer-copy {
+    font-size: 0.78rem;
+    color: rgba(255,255,255,0.25);
+    font-weight: 500;
+  }
+
+  /* ── SCROLL REVEAL ── */
+  .reveal { opacity: 0; transform: translateY(32px); transition: opacity 0.7s ease, transform 0.7s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+  .reveal-delay-1 { transition-delay: 0.1s; }
+  .reveal-delay-2 { transition-delay: 0.2s; }
+  .reveal-delay-3 { transition-delay: 0.3s; }
+  .reveal-delay-4 { transition-delay: 0.4s; }
+
+  /* ── DIVIDER WAVE ── */
+  .wave-divider { line-height: 0; overflow: hidden; }
+  .wave-divider svg { display: block; width: 100%; }
+
+  /* ── MOBILE ── */
+  @media (max-width: 768px) {
+    nav { padding: 14px 20px; }
+    .nav-links { display: none; }
+    .hero-inner { grid-template-columns: 1fr; gap: 32px; padding: 100px 20px 60px; text-align: center; }
+    .hero-visual { height: 300px; order: -1; }
+    .sandwich-blob { width: 260px; height: 260px; }
+    .sandwich-emoji { font-size: 7rem; }
+    .hero-badge.b3 { display: none; }
+    .hero-sub { margin: 0 auto 32px; }
+    .btn-group { justify-content: center; }
+    .cta-hint { text-align: center; }
+    .container { padding: 0 20px; }
+    .taste-cards { grid-template-columns: 1fr; gap: 16px; }
+    .menu-grid { grid-template-columns: 1fr; max-width: 400px; }
+    .menu-card:nth-child(2), .menu-card:nth-child(4) { transform: none; }
+    .quotes-grid { grid-template-columns: 1fr; }
+    .order-cards { grid-template-columns: 1fr; max-width: 360px; }
+    .order-features { gap: 14px; font-size: 0.8rem; }
+    .taste-section, .menu-section, .quotes-section, .order-section { padding: 80px 0; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="nav">
+  <div class="nav-logo">Fruit <span>Dream</span></div>
+  <ul class="nav-links">
+    <li><a href="#taste">Sensasi</a></li>
+    <li><a href="#menu">Menu</a></li>
+    <li><a href="#testimonial">Review</a></li>
+    <li><a href="#order">Order</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+  <!-- floating decors -->
+  <span class="floater" style="top:18%;left:8%;font-size:1.6rem;animation-delay:-0.5s">🍓</span>
+  <span class="floater" style="top:70%;left:6%;font-size:2rem;animation-delay:-2s">🍯</span>
+  <span class="floater" style="top:25%;right:10%;font-size:1.4rem;animation-delay:-3s">🥝</span>
+  <span class="floater" style="top:75%;right:8%;font-size:1.7rem;animation-delay:-1s">🫐</span>
+  <span class="floater" style="top:50%;right:24%;font-size:1.2rem;animation-delay:-4s">⭐</span>
+  <span class="floater" style="top:15%;left:40%;font-size:1rem;animation-delay:-1.5s">✨</span>
+
+  <div class="hero-inner">
+    <div class="hero-content">
+      <div class="hero-tag">Fresh · Dreamy · Handmade</div>
+      <h1 class="hero-headline">
+        Fruit
+        <span class="dream">Dream</span>
+      </h1>
+      <span class="hero-script">Dreamy Bites ✨</span>
+      <p class="hero-sub">Sandwich buah segar dengan whipped cream lembut & granola renyah — setiap gigitan seperti mimpi sore hari yang sempurna.</p>
+      <div class="hero-cta">
+        <div class="btn-group">
+          <a href="https://wa.me/6281234567890?text=Halo!%20Saya%20ingin%20order%20Fruit%20Dream%20Sandwich%20%F0%9F%8D%93" class="btn btn-wa" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            Pesan via WhatsApp
+          </a>
+          <a href="https://instagram.com/fruitdreamsandwich" class="btn btn-ig" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+            Lihat di Instagram
+          </a>
+        </div>
+        <p class="cta-hint">Klik untuk order langsung via chat atau lihat galeri kami 🍃</p>
+      </div>
+    </div>
+
+    <div class="hero-visual">
+      <div class="sandwich-blob"></div>
+      <span class="sandwich-emoji">🥪</span>
+
+      <div class="hero-badge b1">
+        <div class="badge-dot peach">🍓</div>
+        <div>
+          <div style="font-size:0.75rem;color:#9C7B6A;font-weight:600;margin-bottom:1px">Real Fruits</div>
+          <div>Fresh Daily ✓</div>
+        </div>
+      </div>
+      <div class="hero-badge b2">
+        <div class="badge-dot mint">🥛</div>
+        <div>
+          <div style="font-size:0.75rem;color:#9C7B6A;font-weight:600;margin-bottom:1px">Whipped Cream</div>
+          <div>Velvety Smooth ✓</div>
+        </div>
+      </div>
+      <div class="hero-badge b3">
+        <div class="badge-dot gold">🌾</div>
+        <div>
+          <div style="font-size:0.75rem;color:#9C7B6A;font-weight:600;margin-bottom:1px">Honey Granola</div>
+          <div>Extra Crunchy ✓</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WAVE -->
+<div class="wave-divider">
+  <svg viewBox="0 0 1440 60" preserveAspectRatio="none" height="60" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,30 C360,60 720,0 1080,30 C1260,45 1380,20 1440,30 L1440,0 L0,0 Z" fill="#FFE8D5" opacity="0.5"/>
+    <path d="M0,40 C280,10 600,55 960,25 C1200,5 1350,45 1440,40 L1440,0 L0,0 Z" fill="#FFF6F0"/>
+  </svg>
+</div>
+
+<!-- TASTE THE DREAM -->
+<section class="taste-section" id="taste">
+  <div class="container">
+    <div class="reveal">
+      <div class="section-label">Sensasi</div>
+      <h2 class="section-title">Taste the <span class="accent">Dream</span></h2>
+      <p class="section-sub" style="margin-top:16px">Tiga elemen sempurna yang berpadu menciptakan pengalaman rasa yang tak terlupakan.</p>
+    </div>
+    <div class="taste-cards">
+      <div class="taste-card reveal reveal-delay-1">
+        <div class="taste-icon fruit">🍓</div>
+        <h3>Real Fruit Explosion</h3>
+        <p>Potongan buah segar pilihan — stroberi, mangga, kiwi, pisang — yang meledak di setiap gigitan. Manis alami, tanpa tambahan sirup buatan.</p>
+      </div>
+      <div class="taste-card reveal reveal-delay-2">
+        <div class="taste-icon cream">🥛</div>
+        <h3>Velvety Whipped Cream</h3>
+        <p>Krim kocok lembut dengan tekstur ringan seperti awan. Dibuat segar setiap hari, sempurna menyeimbangkan rasa asam buah yang segar.</p>
+      </div>
+      <div class="taste-card reveal reveal-delay-3">
+        <div class="taste-icon granola">🌾</div>
+        <h3>Crunchy Honey Granola</h3>
+        <p>Granola panggang dengan madu asli, memberikan kerenyahan sempurna di setiap lapisan. Kontras tekstur yang bikin nagih.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WAVE 2 -->
+<div class="wave-divider" style="transform:scaleY(-1)">
+  <svg viewBox="0 0 1440 50" preserveAspectRatio="none" height="50" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,25 C400,50 800,0 1200,30 C1350,40 1420,20 1440,25 L1440,0 L0,0 Z" fill="#F0F8F5" opacity="0.7"/>
+  </svg>
+</div>
+
+<!-- SIGNATURE MENU -->
+<section class="menu-section" id="menu">
+  <div class="container">
+    <div class="menu-header reveal">
+      <div class="section-label">Signature Menu</div>
+      <h2 class="section-title">Pilihan <span class="accent">Sandwich</span> Kami</h2>
+      <p class="section-sub" style="margin-top:16px">Setiap varian dirancang dengan kombinasi buah yang unik dan harmonis.</p>
+    </div>
+    <div class="menu-grid">
+      <div class="menu-card reveal reveal-delay-1">
+        <span class="menu-emoji">🍓</span>
+        <h3>Berry Dream</h3>
+        <p>Stroberi segar, blueberry, raspberry dengan whipped cream rose water dan granola almond panggang.</p>
+        <span class="menu-tag tag-berry">Paling Favorit ✦</span>
+        <div class="menu-tooltip">💬 <a href="https://wa.me/6281234567890?text=Saya%20ingin%20tanya%20ketersediaan%20Berry%20Dream" target="_blank">Tanya via WA untuk ketersediaan →</a></div>
+      </div>
+      <div class="menu-card reveal reveal-delay-2">
+        <span class="menu-emoji">🥭</span>
+        <h3>Mango Sunshine</h3>
+        <p>Mangga harum manis, irisan jeruk mandarin, dengan krim vanilla dan granola madu kelapa.</p>
+        <span class="menu-tag tag-mango">Terlaris Summer</span>
+        <div class="menu-tooltip">💬 <a href="https://wa.me/6281234567890?text=Saya%20ingin%20tanya%20ketersediaan%20Mango%20Sunshine" target="_blank">Tanya via WA untuk ketersediaan →</a></div>
+      </div>
+      <div class="menu-card reveal reveal-delay-3">
+        <span class="menu-emoji">🥝</span>
+        <h3>Kiwi Cloud</h3>
+        <p>Kiwi segar, anggur hijau, mint, dengan whipped cream matcha lembut dan granola biji labu.</p>
+        <span class="menu-tag tag-kiwi">Segar & Ringan</span>
+        <div class="menu-tooltip">💬 <a href="https://wa.me/6281234567890?text=Saya%20ingin%20tanya%20ketersediaan%20Kiwi%20Cloud" target="_blank">Tanya via WA untuk ketersediaan →</a></div>
+      </div>
+      <div class="menu-card reveal reveal-delay-4">
+        <span class="menu-emoji">🍌</span>
+        <h3>Banana Honey</h3>
+        <p>Pisang cavendish manis, kenari panggang, dengan krim karamel madu dan granola oat klasik.</p>
+        <span class="menu-tag tag-banana">Comfort Dream</span>
+        <div class="menu-tooltip">💬 <a href="https://wa.me/6281234567890?text=Saya%20ingin%20tanya%20ketersediaan%20Banana%20Honey" target="_blank">Tanya via WA untuk ketersediaan →</a></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- QUOTES / TESTIMONIALS -->
+<section class="quotes-section" id="testimonial">
+  <div class="container">
+    <div class="reveal">
+      <div class="section-label">Kata Mereka</div>
+      <h2 class="section-title">Dreamy <span class="accent">Reviews</span></h2>
+    </div>
+    <div class="quotes-grid">
+      <div class="quote-card reveal reveal-delay-1">
+        <div class="stars">★★★★★</div>
+        <blockquote>"Setiap gigitan terasa seperti mimpi di sore hari yang sempurna."</blockquote>
+        <div class="quote-author">— Naura A., Jakarta Selatan</div>
+      </div>
+      <div class="quote-card reveal reveal-delay-2">
+        <div class="stars">★★★★★</div>
+        <blockquote>"Dipenuhi madu dan senyum. Gak nyesel pesan buat arisan!"</blockquote>
+        <div class="quote-author">— Rizka M., Tangerang</div>
+      </div>
+      <div class="quote-card reveal reveal-delay-3">
+        <div class="stars">★★★★★</div>
+        <blockquote>"Cantik banget presentasinya, dan rasanya lebih enak dari yang keliatan."</blockquote>
+        <div class="quote-author">— Dinda P., Depok</div>
+      </div>
+      <div class="quote-card reveal reveal-delay-4">
+        <div class="stars">★★★★★</div>
+        <blockquote>"Berry Dream jadi favorit keluarga — sudah order untuk keempat kalinya!"</blockquote>
+        <div class="quote-author">— Farah K., Bekasi</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ORDER SECTION -->
+<section class="order-section" id="order">
+  <div class="container" style="position:relative;z-index:2">
+    <!-- floating decors on dark bg -->
+    <span style="position:absolute;top:-20px;left:10%;font-size:1.4rem;animation:float 6s ease-in-out infinite;opacity:0.25">🍓</span>
+    <span style="position:absolute;top:20px;right:12%;font-size:1.2rem;animation:float 8s ease-in-out infinite -2s;opacity:0.2">🍯</span>
+
+    <div class="reveal">
+      <div class="section-label" style="justify-content:center">Hubungi Kami</div>
+      <h2 class="order-title">
+        <span class="script-accent">siap dipesan sekarang ✦</span>
+        Order Impianmu<br>Sekarang
+      </h2>
+      <p class="order-sub">Mudah, cepat, dan langsung direspon. Bisa request topping sesuai selera.</p>
+    </div>
+
+    <div class="order-cards reveal">
+      <a href="https://wa.me/6281234567890?text=Halo%20Fruit%20Dream!%20Saya%20ingin%20order%20%F0%9F%8D%93" class="order-card" target="_blank" rel="noopener">
+        <div class="order-icon wa-icon">💬</div>
+        <h3>WhatsApp Business</h3>
+        <p>Chat langsung untuk order, tanya ketersediaan, atau request topping khusus</p>
+        <span class="chip">+62 812-3456-7890</span>
+      </a>
+      <a href="https://instagram.com/fruitdreamsandwich" class="order-card" target="_blank" rel="noopener">
+        <div class="order-icon ig-icon">📱</div>
+        <h3>Instagram DM</h3>
+        <p>Lihat galeri sandwich kami yang cantik dan pesan lewat direct message</p>
+        <span class="chip">@fruitdreamsandwich</span>
+      </a>
+    </div>
+
+    <div class="order-features reveal">
+      <span>Fast response</span>
+      <span>Bisa request topping</span>
+      <span>Tersedia untuk catering kecil</span>
+      <span>Pickup & delivery area tertentu</span>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">Fruit Dream 🍓</div>
+  <p class="footer-tagline">Made with love & fresh fruits</p>
+  <div class="footer-socials">
+    <a href="https://instagram.com/fruitdreamsandwich" class="footer-social-btn" target="_blank" rel="noopener" aria-label="Instagram">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+    </a>
+    <a href="https://tiktok.com/@fruitdreamsandwich" class="footer-social-btn" target="_blank" rel="noopener" aria-label="TikTok">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.32 6.32 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.17 8.17 0 004.77 1.52V6.76a4.85 4.85 0 01-1-.07z"/></svg>
+    </a>
+    <a href="https://wa.me/6281234567890" class="footer-social-btn" target="_blank" rel="noopener" aria-label="WhatsApp">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+    </a>
+  </div>
+  <div class="footer-divider"></div>
+  <p class="footer-copy">© 2025 Fruit Dream Sandwich · All rights reserved</p>
+</footer>
+
+<script>
+  // Nav scroll effect
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 40);
+  });
+
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
+  reveals.forEach(el => observer.observe(el));
+
+  // Hero entrance animation
+  document.addEventListener('DOMContentLoaded', () => {
+    const heroEls = document.querySelectorAll('.hero-tag, .hero-headline, .hero-script, .hero-sub, .hero-cta, .hero-visual');
+    heroEls.forEach((el, i) => {
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(24px)';
+      setTimeout(() => {
+        el.style.transition = 'opacity 0.7s ease, transform 0.7s ease';
+        el.style.opacity = '1';
+        el.style.transform = 'translateY(0)';
+      }, 150 + i * 100);
+    });
+  });
+</script>
+</body>
+</html>
